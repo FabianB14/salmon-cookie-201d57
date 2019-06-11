@@ -4,10 +4,10 @@
 //This function is to caluclate the avg and times of the cookie sales.
 
 //Global Var
-var storeContainerUlEl;
-var liEl;
-var liElTotal;
-var h2El;
+var storeContainerTBEl;
+var thEl;
+var thElTotal;
+var tdEl;
 var ImageURL;
 var parentImageURL;
 //Image DOM manipulation
@@ -20,117 +20,129 @@ ImageURL.src = 'https://raw.githubusercontent.com/codefellows/seattle-201d57/mas
 //4.
 parentImageURL.appendChild(ImageURL);
 
-
-
-//These are the objects for the public store fronts.
-var firstAndPike = {
-  locationName: '1st and Pike',
-  minCustomer: 23,
-  maxCustomer: 65,
-  avgCookieSale: 6.3,
-  pikeCooikesBoughtArr : [],
-  randomCustomer : function (){return Math.floor(Math.random()* (firstAndPike.maxCustomer-firstAndPike.minCustomer))+ firstAndPike.minCustomer;}
-};
-var seatacAirport = {
-  locationName: 'SeaTac Airport',
-  minCustomer: 3,
-  maxCustomer: 24,
-  avgCookieSale: 1.2,
-  seatacCooikesBoughtArr : [],
-  randomCustomer : function (){return Math.floor(Math.random()* (seatacAirport.maxCustomer-seatacAirport.minCustomer))+ seatacAirport.minCustomer;}
-};
-var seattleCenter = {
-  locationName: 'Seattle Center',
-  minCustomer: 11,
-  maxCustomer: 38,
-  avgCookieSale: 3.7,
-  seaCenterCooikesBoughtArr : [],
-  randomCustomer : function (){return Math.floor(Math.random()* (seattleCenter.maxCustomer-seattleCenter.minCustomer))+ seattleCenter.minCustomer;}
-};
-var capitolHill = {
-  locationName: 'Capitol Hill',
-  minCustomer: 20,
-  maxCustomer: 38,
-  avgCookieSale: 2.3,
-  capHillCooikesBoughtArr : [],
-  randomCustomer : function (){return Math.floor(Math.random()* (capitolHill.maxCustomer-capitolHill.minCustomer))+ capitolHill.minCustomer;}
-};
-var alki = {
-  locationName: 'Alki',
-  minCustomer: 2,
-  maxCustomer: 16,
-  avgCookieSale: 4.6,
-  alkiCooikesBoughtArr : [],
-  randomCustomer : function (){return Math.floor(Math.random()* (alki.maxCustomer-alki.minCustomer))+ alki.minCustomer;}
+//This is my store constructor. I will be using this to build my stores
+var Store = function(locationName,minCustomer,maxCustomer,avgCookie, cookiesBoughtArr){
+  this.locationName = locationName;
+  this.minCustomer = minCustomer;
+  this.maxCustomer = maxCustomer;
+  this.avgCookie = avgCookie;
+  this.cooikesBoughtArr = cookiesBoughtArr;
 };
 
-// This is the randomCustomer function. This will get a random amount of customers every hour and multiply them by the average amount of cookies brought.
-var randomCustomerPike = function(randomCustomer,cooikesBoughtArr,avgCookie){
-  console.log(avgCookie);
-  console.log(randomCustomer);
+//Using the constructor and pushing it to an array
+var firstAndPike = new Store('1st and Pike',23,65,6.3,[]);
+var seaTac = new Store('SeaTac Airport',3,24,1.2,[]);
+var seattleCenter = new Store('Seattle Center',11,38,3.7,[]);
+var capitolHill = new Store('Capitol Hill',20,38,2.3,[]);
+var alki = new Store('Alki',2,16,4.6,[]);
+var storeArray = [];
+storeArray. push(firstAndPike);
+storeArray. push(seaTac);
+storeArray. push(seattleCenter);
+storeArray. push(capitolHill);
+storeArray. push(alki);
+
+//These are the functions that the store objects will be using
+Store.prototype.randomCustomer = function (){return Math.floor(Math.random()* (this.maxCustomer-this.minCustomer))+ this.minCustomer;};
+Store.prototype.addingToDOM = function(cooikesBoughtArr, storeName){
+  //This will add the location name to a h3
+  tdEl = document.createElement('td');
+  tdEl.textContent = storeName;
+  //This is getting the container the stores will be in.
+  storeContainerTBEl = document.getElementById(storeName);
+  storeContainerTBEl.appendChild(tdEl);
+  //This is a loop to display the information on the page.
+  for(var i = 0; i< 14;i++ ){
+    //This is creating the li element dynamic
+    thEl = document.createElement('th');
+    console.log(cooikesBoughtArr[0]);
+    thEl.textContent = cooikesBoughtArr[0][i];
+    storeContainerTBEl.appendChild(thEl);
+  }
+  //This will add the total at the bottom
+  thElTotal = document.createElement('td');
+  thElTotal.textContent = 'Total '+Math.floor(cooikesBoughtArr[1]);
+  storeContainerTBEl.appendChild(thElTotal);
+};
+
+var timeSetFunction = function(){
+  storeContainerTBEl = document.getElementById('table head');
+  thEl = document.createElement('th');
+  thEl.textContent = ' Location';
+  storeContainerTBEl.appendChild(thEl);
+  for(var i = 6; i < 12; i++){
+    thEl = document.createElement('th');
+    console.log(i);
+    thEl.textContent = i+':00 am';
+    storeContainerTBEl.appendChild(thEl);
+  }
+  for(var j = 0;j < 8; j++){
+    if(j !== 0){
+      thEl = document.createElement('th');
+      console.log(j);
+      thEl.textContent = j+':00 pm';
+      storeContainerTBEl.appendChild(thEl);
+    }
+    else{
+      thEl = document.createElement('th');
+      console.log(j);
+      thEl.textContent = 12+':00 pm';
+      storeContainerTBEl.appendChild(thEl);
+    }
+  }
+  if(j === 8){
+    thEl = document.createElement('th');
+    thEl.textContent = 'Daily Location Total';
+    storeContainerTBEl.appendChild(thEl);
+  }
+};
+
+
+//This is the function to add the random number of cutomers and average cookies bought
+Store.prototype.randomCustomerPike = function(randomCustomer,cooikesBoughtArr,avgCookie){
   var totalCookies = 0;
   cooikesBoughtArr = [];
   var multipliedSales = 0;
-  console.log(randomCustomer);
   for(var i = 6; i < 12; i++){
-    multipliedSales= randomCustomer()* avgCookie;
-    cooikesBoughtArr.push(i+'am: '+Math.floor(multipliedSales)+' cookies');
+    multipliedSales= this.randomCustomer()* avgCookie;
+    cooikesBoughtArr.push(Math.floor(multipliedSales));
     totalCookies = totalCookies + multipliedSales;
   }
   for(var j = 0; j <=8;j++){
     multipliedSales = randomCustomer * avgCookie;
     if(j !== 0){
-      multipliedSales= randomCustomer()* avgCookie;
-      cooikesBoughtArr.push(j+'am: '+Math.floor(multipliedSales)+' cookies');
+      multipliedSales= this.randomCustomer()* avgCookie;
+      cooikesBoughtArr.push(Math.floor(multipliedSales));
       totalCookies = totalCookies + multipliedSales;
     }
     else{
       j = 12;
-      multipliedSales= randomCustomer()* avgCookie;
-      cooikesBoughtArr.push(j+'am: '+Math.floor(multipliedSales)+' cookies');
+      multipliedSales= this.randomCustomer()* avgCookie;
+      cooikesBoughtArr.push(+Math.floor(multipliedSales));
       totalCookies = totalCookies + multipliedSales;
       j = 0;
     }
-    console.log(totalCookies);
+    console.log(Math.floor(totalCookies));
   }
-  return[cooikesBoughtArr,Math.floor(totalCookies)];
+  return [cooikesBoughtArr,totalCookies];
 };
-//This is a function to loop through while adding store front info to the DOM dynamically
-var addingToDOM = function(cooikesBoughtArr, storeName){
-  //This will add the location name to a H2
-  h2El = document.createElement('h2');
-  h2El.textContent = storeName;
-  //This is getting the container the stores will be in.
-  storeContainerUlEl = document.getElementById(storeName);
-  storeContainerUlEl.appendChild(h2El);
-  //This is a loop to display the information on the page. 
-  for(var i = 0; i< 15;i++ ){  
-    //This is creating the li element dynamic
-    liEl = document.createElement('li');
-    console.log(cooikesBoughtArr[0]);
-    liEl.textContent = cooikesBoughtArr[0][i];
-    storeContainerUlEl.appendChild(liEl);
-  }
-  //This will add the total at the bottom
-  liElTotal = document.createElement('li');
-  liElTotal.textContent = 'Total '+cooikesBoughtArr[1]+' cookies';
-  storeContainerUlEl.appendChild(liElTotal);
-
+Store.prototype.randomCustomer = function (){return Math.floor(Math.random()* (this.maxCustomer-this.minCustomer))+ this.minCustomer;};
+Store.prototype.doAll = function(Store,locationName){
+  var ran = firstAndPike.randomCustomer();
+  var arrayOfCookiesSales = Store.randomCustomerPike(ran,Store.cooikesBoughtArr,Store.avgCookie);
+  Store.addingToDOM(arrayOfCookiesSales,locationName);
+  return(arrayOfCookiesSales);
 };
-//This is adding all the store fronts to the DOM dynamically
-firstAndPike.pikeCooikesBoughtArr = randomCustomerPike(firstAndPike.randomCustomer,firstAndPike.pikeCooikesBoughtArr, firstAndPike.avgCookieSale);
-addingToDOM(firstAndPike.pikeCooikesBoughtArr,firstAndPike.locationName);
-
-seatacAirport.seatacCooikesBoughtArr = randomCustomerPike(seatacAirport.randomCustomer,seatacAirport.seatacCooikesBoughtArr, seatacAirport.avgCookieSale);
-addingToDOM(seatacAirport.seatacCooikesBoughtArr,seatacAirport.locationName);
-
-seattleCenter.seaCenterCooikesBoughtArr = randomCustomerPike(seattleCenter.randomCustomer,seattleCenter.seaCenterCooikesBoughtArr, seattleCenter.avgCookieSale);
-addingToDOM(seattleCenter.seaCenterCooikesBoughtArr,seattleCenter.locationName);
-
-capitolHill.capHillCooikesBoughtArr = randomCustomerPike(capitolHill.randomCustomer,capitolHill.capHillCooikesBoughtArr, capitolHill.avgCookieSale);
-addingToDOM(capitolHill.capHillCooikesBoughtArr,capitolHill.locationName);
-
-alki.alkiCooikesBoughtArr = randomCustomerPike(alki.randomCustomer,alki.alkiCooikesBoughtArr, alki.avgCookieSale);
-addingToDOM(alki.alkiCooikesBoughtArr,alki.locationName);
 
 
+var masterFunction = function(Store){
+  Store.doAll(Store,Store.locationName);
+  console.log(Store.cooikesBoughtArr);
+  console.log(storeArray);
+};
+timeSetFunction();
+masterFunction(firstAndPike);
+masterFunction(seaTac);
+masterFunction(seattleCenter);
+masterFunction(capitolHill);
+masterFunction(alki);
