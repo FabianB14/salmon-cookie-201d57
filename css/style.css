@@ -1,0 +1,26 @@
+
+header {
+  background-color:brown;
+  height: 120px;
+}
+nav {
+  padding-top: 30px;
+}
+
+nav li {
+  float: left;
+  height: 60px; 
+  margin-right: 20px;
+}
+
+a {
+  font-size: 35px;
+}
+
+ul {
+ list-style: none;
+ display: inline-block;
+}
+
+
+
