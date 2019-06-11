@@ -10,10 +10,14 @@ var liElTotal;
 var h2El;
 var ImageURL;
 var parentImageURL;
-
+//Image DOM manipulation
+//1.
 parentImageURL = document.getElementById('parentImage');
+//2.
 ImageURL = document.createElement('img');
+//3.
 ImageURL.src = 'https://raw.githubusercontent.com/codefellows/seattle-201d57/master/class-06/lab/assets/salmon.png';
+//4.
 parentImageURL.appendChild(ImageURL);
 
 
@@ -25,7 +29,7 @@ var firstAndPike = {
   maxCustomer: 65,
   avgCookieSale: 6.3,
   pikeCooikesBoughtArr : [],
-  randomCustomer : function (){return Math.ceil(Math.random()* (firstAndPike.minCustomer-firstAndPike.maxCustomer))+ firstAndPike.minCustomer * firstAndPike.avgCookieSale;}
+  randomCustomer : function (){return Math.floor(Math.random()* (firstAndPike.maxCustomer-firstAndPike.minCustomer))+ firstAndPike.minCustomer;}
 };
 var seatacAirport = {
   locationName: 'SeaTac Airport',
@@ -33,7 +37,7 @@ var seatacAirport = {
   maxCustomer: 24,
   avgCookieSale: 1.2,
   seatacCooikesBoughtArr : [],
-  randomCustomer : function (){return Math.ceil(Math.random()* (seatacAirport.minCustomer-seatacAirport.maxCustomer))+ seatacAirport.minCustomer * seatacAirport.avgCookieSale;}
+  randomCustomer : function (){return Math.floor(Math.random()* (seatacAirport.maxCustomer-seatacAirport.minCustomer))+ seatacAirport.minCustomer;}
 };
 var seattleCenter = {
   locationName: 'Seattle Center',
@@ -41,7 +45,7 @@ var seattleCenter = {
   maxCustomer: 38,
   avgCookieSale: 3.7,
   seaCenterCooikesBoughtArr : [],
-  randomCustomer : function (){return Math.ceil(Math.random()* (seattleCenter.minCustomer-seattleCenter.maxCustomer))+ seattleCenter.minCustomer * seattleCenter.avgCookieSale;}
+  randomCustomer : function (){return Math.floor(Math.random()* (seattleCenter.maxCustomer-seattleCenter.minCustomer))+ seattleCenter.minCustomer;}
 };
 var capitolHill = {
   locationName: 'Capitol Hill',
@@ -49,7 +53,7 @@ var capitolHill = {
   maxCustomer: 38,
   avgCookieSale: 2.3,
   capHillCooikesBoughtArr : [],
-  randomCustomer : function (){return Math.ceil(Math.random()* (capitolHill.minCustomer-capitolHill.maxCustomer))+ capitolHill.minCustomer * capitolHill.avgCookieSale;}
+  randomCustomer : function (){return Math.floor(Math.random()* (capitolHill.maxCustomer-capitolHill.minCustomer))+ capitolHill.minCustomer;}
 };
 var alki = {
   locationName: 'Alki',
@@ -57,34 +61,39 @@ var alki = {
   maxCustomer: 16,
   avgCookieSale: 4.6,
   alkiCooikesBoughtArr : [],
-  randomCustomer : function (){return Math.ceil(Math.random()* (alki.minCustomer-alki.maxCustomer))+ alki.minCustomer * alki.avgCookieSale;}
+  randomCustomer : function (){return Math.floor(Math.random()* (alki.maxCustomer-alki.minCustomer))+ alki.minCustomer;}
 };
 
 // This is the randomCustomer function. This will get a random amount of customers every hour and multiply them by the average amount of cookies brought.
-var randomCustomerPike = function(randomCustomer,cooikesBoughtArr){
+var randomCustomerPike = function(randomCustomer,cooikesBoughtArr,avgCookie){
+  console.log(avgCookie);
+  console.log(randomCustomer);
   var totalCookies = 0;
   cooikesBoughtArr = [];
+  var multipliedSales = 0;
+  console.log(randomCustomer);
   for(var i = 6; i < 12; i++){
-    randomCustomer = Math.floor(Math.random()* (firstAndPike.minCustomer-firstAndPike.maxCustomer))+ firstAndPike.minCustomer * firstAndPike.avgCookieSale;
-    console.log(randomCustomer);
-    cooikesBoughtArr.push(i+'am: '+ randomCustomer+' cookies');
-    totalCookies = totalCookies + randomCustomer;
+    multipliedSales= randomCustomer()* avgCookie;
+    cooikesBoughtArr.push(i+'am: '+Math.floor(multipliedSales)+' cookies');
+    totalCookies = totalCookies + multipliedSales;
   }
   for(var j = 0; j <=8;j++){
-    randomCustomer = Math.floor(Math.random()* (firstAndPike.minCustomer-firstAndPike.maxCustomer))+ firstAndPike.minCustomer * firstAndPike.avgCookieSale;
+    multipliedSales = randomCustomer * avgCookie;
     if(j !== 0){
-      cooikesBoughtArr.push(j+'pm: '+ randomCustomer+' cookies');
-      totalCookies = totalCookies + randomCustomer;
+      multipliedSales= randomCustomer()* avgCookie;
+      cooikesBoughtArr.push(j+'am: '+Math.floor(multipliedSales)+' cookies');
+      totalCookies = totalCookies + multipliedSales;
     }
     else{
       j = 12;
-      cooikesBoughtArr.push(i+'pm: '+ randomCustomer+' cookies');
-      totalCookies = totalCookies + randomCustomer;
+      multipliedSales= randomCustomer()* avgCookie;
+      cooikesBoughtArr.push(j+'am: '+Math.floor(multipliedSales)+' cookies');
+      totalCookies = totalCookies + multipliedSales;
       j = 0;
     }
     console.log(totalCookies);
   }
-  return[cooikesBoughtArr,totalCookies];
+  return[cooikesBoughtArr,Math.floor(totalCookies)];
 };
 //This is a function to loop through while adding store front info to the DOM dynamically
 var addingToDOM = function(cooikesBoughtArr, storeName){
@@ -109,19 +118,19 @@ var addingToDOM = function(cooikesBoughtArr, storeName){
 
 };
 //This is adding all the store fronts to the DOM dynamically
-firstAndPike.pikeCooikesBoughtArr = randomCustomerPike(firstAndPike.randomCustomer,firstAndPike.pikeCooikesBoughtArr);
+firstAndPike.pikeCooikesBoughtArr = randomCustomerPike(firstAndPike.randomCustomer,firstAndPike.pikeCooikesBoughtArr, firstAndPike.avgCookieSale);
 addingToDOM(firstAndPike.pikeCooikesBoughtArr,firstAndPike.locationName);
 
-seatacAirport.seatacCooikesBoughtArr = randomCustomerPike(seatacAirport.randomCustomer,seatacAirport.seatacCooikesBoughtArr);
+seatacAirport.seatacCooikesBoughtArr = randomCustomerPike(seatacAirport.randomCustomer,seatacAirport.seatacCooikesBoughtArr, seatacAirport.avgCookieSale);
 addingToDOM(seatacAirport.seatacCooikesBoughtArr,seatacAirport.locationName);
 
-seattleCenter.seaCenterCooikesBoughtArr = randomCustomerPike(seattleCenter.randomCustomer,seattleCenter.seaCenterCooikesBoughtArr);
+seattleCenter.seaCenterCooikesBoughtArr = randomCustomerPike(seattleCenter.randomCustomer,seattleCenter.seaCenterCooikesBoughtArr, seattleCenter.avgCookieSale);
 addingToDOM(seattleCenter.seaCenterCooikesBoughtArr,seattleCenter.locationName);
 
-capitolHill.capHillCooikesBoughtArr = randomCustomerPike(capitolHill.randomCustomer,capitolHill.capHillCooikesBoughtArr);
+capitolHill.capHillCooikesBoughtArr = randomCustomerPike(capitolHill.randomCustomer,capitolHill.capHillCooikesBoughtArr, capitolHill.avgCookieSale);
 addingToDOM(capitolHill.capHillCooikesBoughtArr,capitolHill.locationName);
 
-alki.alkiCooikesBoughtArr = randomCustomerPike(alki.randomCustomer,alki.alkiCooikesBoughtArr);
+alki.alkiCooikesBoughtArr = randomCustomerPike(alki.randomCustomer,alki.alkiCooikesBoughtArr, alki.avgCookieSale);
 addingToDOM(alki.alkiCooikesBoughtArr,alki.locationName);
 
 
