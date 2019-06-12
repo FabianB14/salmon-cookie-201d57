@@ -45,30 +45,8 @@ storeArray.push(alki);
 //These are the functions that the store objects will be using
 Store.prototype.randomCustomer = function (){return Math.floor(Math.random()* (this.maxCustomer-this.minCustomer))+ this.minCustomer;};
 
-//This will used to add all the tags and elements to the DOM
-Store.prototype.addingToDOM = function(cooikesBoughtArr, storeName){
-  //This will add the location name to a h3
-  tdEl = document.createElement('td');
-  tdEl.textContent = storeName;
-  //This is getting the container the stores will be in.
-  storeContainerTBEl = document.getElementById(storeName);
-  storeContainerTBEl.appendChild(tdEl);
-  //This is a loop to display the information on the page.
-  for(var i = 0; i< 14;i++ ){
-    //This is creating the li element dynamic
-    thEl = document.createElement('th');
-    console.log(cooikesBoughtArr[0]);
-    thEl.textContent = cooikesBoughtArr[0][i];
-    storeContainerTBEl.appendChild(thEl);
-  }
-  //This will add the total at the bottom
-  thElTotal = document.createElement('td');
-  thElTotal.textContent = 'Total '+Math.floor(cooikesBoughtArr[1]);
-  storeContainerTBEl.appendChild(thElTotal);
-};
-
 //This is the function to add the random number of cutomers and average cookies bought
-Store.prototype.randomCustomerPike = function(randomCustomer,cooikesBoughtArr,avgCookie){
+Store.prototype.randomCustomerSales = function(randomCustomer,cooikesBoughtArr,avgCookie){
   var totalCookies = 0;
   cooikesBoughtArr = [];
   var multipliedSales = 0;
@@ -94,12 +72,34 @@ Store.prototype.randomCustomerPike = function(randomCustomer,cooikesBoughtArr,av
   }
   return [cooikesBoughtArr,totalCookies];
 };
+
+//This will used to add all the tags and elements to the DOM
+Store.prototype.addingToDOM = function(cooikesBoughtArr, storeName){
+  //This will add the location name to a h3
+  tdEl = document.createElement('td');
+  tdEl.textContent = storeName;
+  //This is getting the container the stores will be in.
+  storeContainerTBEl = document.getElementById(storeName);
+  storeContainerTBEl.appendChild(tdEl);
+  //This is a loop to display the information on the page.
+  for(var i = 0; i< 14;i++ ){
+    //This is creating the li element dynamic
+    thEl = document.createElement('th');
+    console.log(cooikesBoughtArr[0]);
+    thEl.textContent = cooikesBoughtArr[0][i];
+    storeContainerTBEl.appendChild(thEl);
+  }
+  //This will add the total at the bottom
+  thElTotal = document.createElement('td');
+  thElTotal.textContent = 'Total '+Math.floor(cooikesBoughtArr[1]);
+  storeContainerTBEl.appendChild(thElTotal);
+};
 //This function will add the random number of customers
 Store.prototype.randomCustomer = function (){return Math.floor(Math.random()* (this.maxCustomer-this.minCustomer))+ this.minCustomer;};
 //This function will perform the main store functions
 Store.prototype.doAll = function(Store,locationName){
   var ran = Store.randomCustomer();
-  var arrayOfCookiesSales = Store.randomCustomerPike(ran,Store.cooikesBoughtArr,Store.avgCookie);
+  var arrayOfCookiesSales = Store.randomCustomerSales(ran,Store.cooikesBoughtArr,Store.avgCookie);
   Store.addingToDOM(arrayOfCookiesSales,locationName);
   return(arrayOfCookiesSales);
 };
