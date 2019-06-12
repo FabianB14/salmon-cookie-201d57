@@ -1,6 +1,6 @@
 
 header {
-  background-color:brown;
+  background-color:black;
   height: 120px;
 }
 nav {
@@ -36,6 +36,10 @@ th, td {
 }
 *{
   font-size: 10px;
+  background-color: black;
+  color: aqua;
 }
 
-
+img{
+  width: 100%;
+}

@@ -15,7 +15,7 @@ parentImageURL = document.getElementById('parentImage');
 //2.
 ImageURL = document.createElement('img');
 //3.
-ImageURL.src = 'https://raw.githubusercontent.com/codefellows/seattle-201d57/master/class-06/lab/assets/salmon.png';
+ImageURL.src = 'https://i.ytimg.com/vi/Ikp3XAJbHaw/maxresdefault.jpg';
 //4.
 parentImageURL.appendChild(ImageURL);
 
@@ -75,7 +75,7 @@ Store.prototype.randomCustomerSales = function(randomCustomer,cooikesBoughtArr,a
 
 //This will used to add all the tags and elements to the DOM
 Store.prototype.addingToDOM = function(cooikesBoughtArr, storeName){
-  //This will add the location name to a h3
+  //This will add the location name to a td
   tdEl = document.createElement('td');
   tdEl.textContent = storeName;
   //This is getting the container the stores will be in.
@@ -146,3 +146,6 @@ masterFunction(seaTac);
 masterFunction(seattleCenter);
 masterFunction(capitolHill);
 masterFunction(alki);
+
+
+
