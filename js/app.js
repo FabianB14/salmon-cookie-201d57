@@ -19,6 +19,19 @@ ImageURL.src = 'https://i.ytimg.com/vi/Ikp3XAJbHaw/maxresdefault.jpg';
 //4.
 parentImageURL.appendChild(ImageURL);
 
+var createVars6am = function(i){
+  var salesPerHour = [];
+
+  if(i === 12){
+    salesPerHour[i] = i +'pm';
+    console.log(salesPerHour[i]);
+  }
+  salesPerHour[i] = i +'am';
+  console.log(salesPerHour[i]);
+
+};
+
+
 //This is my store constructor. I will be using this to build my stores
 var Store = function(locationName,minCustomer,maxCustomer,avgCookie, cookiesBoughtArr){
   this.locationName = locationName;
@@ -43,7 +56,12 @@ storeArray.push(capitolHill);
 storeArray.push(alki);
 
 //These are the functions that the store objects will be using
-Store.prototype.randomCustomer = function (){return Math.floor(Math.random()* (this.maxCustomer-this.minCustomer))+ this.minCustomer;};
+// var hourSalesTotal = function(){
+//   var hourSalesArr = [];
+//   for(var i = 0;i < 14 ; i++){
+
+//   }
+// }
 
 //This is the function to add the random number of cutomers and average cookies bought
 Store.prototype.randomCustomerSales = function(randomCustomer,cooikesBoughtArr,avgCookie){
@@ -54,6 +72,10 @@ Store.prototype.randomCustomerSales = function(randomCustomer,cooikesBoughtArr,a
     multipliedSales= this.randomCustomer()* avgCookie;
     cooikesBoughtArr.push(Math.floor(multipliedSales));
     totalCookies = totalCookies + multipliedSales;
+    createVars6am(i);
+    if(i+'am'=== salesPerHour[0]){
+
+    }
   }
   for(var j = 0; j <=8;j++){
     multipliedSales = randomCustomer * avgCookie;
@@ -85,7 +107,6 @@ Store.prototype.addingToDOM = function(cooikesBoughtArr, storeName){
   for(var i = 0; i< 14;i++ ){
     //This is creating the li element dynamic
     thEl = document.createElement('th');
-    console.log(cooikesBoughtArr[0]);
     thEl.textContent = cooikesBoughtArr[0][i];
     storeContainerTBEl.appendChild(thEl);
   }
