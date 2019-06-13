@@ -28,7 +28,7 @@ var createVars6am = function(i){
   }
   salesPerHour[i] = i +'am';
   console.log(salesPerHour[i]);
-
+  return salesPerHour;
 };
 
 
@@ -56,12 +56,6 @@ storeArray.push(capitolHill);
 storeArray.push(alki);
 
 //These are the functions that the store objects will be using
-// var hourSalesTotal = function(){
-//   var hourSalesArr = [];
-//   for(var i = 0;i < 14 ; i++){
-
-//   }
-// }
 
 //This is the function to add the random number of cutomers and average cookies bought
 Store.prototype.randomCustomerSales = function(randomCustomer,cooikesBoughtArr,avgCookie){
@@ -73,9 +67,6 @@ Store.prototype.randomCustomerSales = function(randomCustomer,cooikesBoughtArr,a
     cooikesBoughtArr.push(Math.floor(multipliedSales));
     totalCookies = totalCookies + multipliedSales;
     createVars6am(i);
-    if(i+'am'=== salesPerHour[0]){
-
-    }
   }
   for(var j = 0; j <=8;j++){
     multipliedSales = randomCustomer * avgCookie;
