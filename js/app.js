@@ -60,6 +60,7 @@ storeArray.push(alki);
 //This is the function to add the random number of cutomers and average cookies bought
 Store.prototype.randomCustomerSales = function(randomCustomer,cooikesBoughtArr,avgCookie){
   var totalCookies = 0;
+  var salesPerHour;
   cooikesBoughtArr = [];
   var multipliedSales = 0;
   for(var i = 6; i < 12; i++){
@@ -67,7 +68,12 @@ Store.prototype.randomCustomerSales = function(randomCustomer,cooikesBoughtArr,a
     cooikesBoughtArr.push(Math.floor(multipliedSales));
     totalCookies = totalCookies + multipliedSales;
     createVars6am(i);
+    salesPerHour = createVars6am(i);
+    if(salesPerHour=== i+'am'){
+      salesPerHour.push(Math.floor(multipliedSales));
+    }
   }
+  console.log(salesPerHour);
   for(var j = 0; j <=8;j++){
     multipliedSales = randomCustomer * avgCookie;
     if(j !== 0){
@@ -153,14 +159,13 @@ var masterFunction = function(Store){
 
 var callingMasterFunction = function(storeArray){
   for (var i=0; i < storeArray.length; i++){
-    masterFunction(storeArray);
+    masterFunction(storeArray[i]);
 
   }
 };
 
 //Here I am calling all the functions
-timeSetFunction();
-callingMasterFunction(storeArray);
+
 
 //this is getting the data from the form and saveing it to an array so i can manipulated later
 var form = document.getElementById('store form');
@@ -174,7 +179,8 @@ var handleFormSubmit = function(formSubmitEvent){
   storeArray.push(newStore);
   console.log(storeArray);
 };
-
+timeSetFunction();
+callingMasterFunction(storeArray);
 form.addEventListener('submit', handleFormSubmit);
 
 
