@@ -151,13 +151,39 @@ var masterFunction = function(Store){
   Store.doAll(Store,Store.locationName);
 };
 
+var callingMasterFunction = function(storeArray){
+  for (var i=0; i < storeArray.length; i++){
+    masterFunction(storeArray);
+
+  }
+};
+
 //Here I am calling all the functions
 timeSetFunction();
-masterFunction(firstAndPike);
-masterFunction(seaTac);
-masterFunction(seattleCenter);
-masterFunction(capitolHill);
-masterFunction(alki);
+callingMasterFunction(storeArray);
+
+//this is getting the data from the form and saveing it to an array so i can manipulated later
+var form = document.getElementById('store form');
+var handleFormSubmit = function(formSubmitEvent){
+  formSubmitEvent.preventDefault();
+  var locationNameForm = formSubmitEvent.target['locationName'].value;
+  var minCustomerForm = formSubmitEvent.target['minCustomer'].value;
+  var maxCustomerForm = formSubmitEvent.target['maxCustomer'].value;
+  var avgCookiesForm = formSubmitEvent.target['avgCookies'].value;
+  var newStore = new Store(locationNameForm, minCustomerForm, maxCustomerForm, avgCookiesForm);
+  storeArray.push(newStore);
+  console.log(storeArray);
+};
+
+form.addEventListener('submit', handleFormSubmit);
+
+
+
+
+
+
+
+
 
 
 
