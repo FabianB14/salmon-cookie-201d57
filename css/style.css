@@ -1,6 +1,6 @@
 
 header {
-  background-color:black;
+  
   height: 120px;
 }
 nav {
@@ -36,7 +36,6 @@ th, td {
 }
 *{
   font-size: 10px;
-  background-color: black;
   color: aqua;
 }
 
@@ -51,3 +50,30 @@ h2{
   font-size: 20px;
 }
 
+#parentImage{
+  width: 100%;
+}
+
+#gallery{
+  width: 50%;
+  height: 200px;
+}
+
+#index-body{
+    display: block;
+    background-repeat: no-repeat;
+    height:160px;
+    padding-left:280px;
+    padding-top:50px;
+    width:470px;
+}
+html{
+   background-image: url('https://raw.githubusercontent.com/codefellows/seattle-201d57/master/class-09/lab-b/assets/fish.jpg');
+}
+table{
+  background-color: black;
+}
+
+form{
+  background-color: black;
+}

@@ -3,7 +3,7 @@
 var ImageURL;
 var parentImageURL;
 
-var imageArr = ['https://raw.githubusercontent.com/codefellows/seattle-201d57/master/class-09/lab-b/assets/chinook.jpg','https://raw.githubusercontent.com/codefellows/seattle-201d57/master/class-09/lab-b/assets/cutter.jpeg','https://raw.githubusercontent.com/codefellows/seattle-201d57/master/class-09/lab-b/assets/family.jpg','https://raw.githubusercontent.com/codefellows/seattle-201d57/master/class-09/lab-b/assets/fish.jpg','https://raw.githubusercontent.com/codefellows/seattle-201d57/master/class-09/lab-b/assets/frosted-cookie.jpg','https://raw.githubusercontent.com/codefellows/seattle-201d57/master/class-09/lab-b/assets/salmon.png','https://raw.githubusercontent.com/codefellows/seattle-201d57/master/class-09/lab-b/assets/shirt.jpg'];
+var imageArr = ['https://raw.githubusercontent.com/codefellows/seattle-201d57/master/class-09/lab-b/assets/family.jpg','https://raw.githubusercontent.com/codefellows/seattle-201d57/master/class-09/lab-b/assets/chinook.jpg','https://raw.githubusercontent.com/codefellows/seattle-201d57/master/class-09/lab-b/assets/cutter.jpeg','https://raw.githubusercontent.com/codefellows/seattle-201d57/master/class-09/lab-b/assets/frosted-cookie.jpg','https://raw.githubusercontent.com/codefellows/seattle-201d57/master/class-09/lab-b/assets/salmon.png','https://raw.githubusercontent.com/codefellows/seattle-201d57/master/class-09/lab-b/assets/shirt.jpg'];
 
 var imageDisplay = function(imageArr){
 
@@ -17,6 +17,8 @@ var imageDisplay = function(imageArr){
     ImageURL.src =imageArr[i];
     //4.
     parentImageURL.appendChild(ImageURL);
+
+    ImageURL.setAttribute('id', 'gallery');
 
   }
 };
