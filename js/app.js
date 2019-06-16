@@ -10,6 +10,8 @@ var tdEl;
 var ImageURL;
 var parentImageURL;
 var timeArr;
+var count = 1;
+var flag = false;
 //Image DOM manipulation
 //1.
 parentImageURL = document.getElementById('parentImage');
@@ -194,17 +196,13 @@ var addHourTotal = function(totalArray,flag){
   var totalHour = 0;
   var removeOldTotal = 0;
   const reducer = (accumulator, currentValue) => accumulator + currentValue;
-  console.log(totalArray);
-  console.log(totalArray[0]);
-  console.log(totalArray[0].hourArr[5]);
-  console.log(totalArray[0]);
+
   for(var i = 0; i < totalArray.length;i++){
     if(flag === true){
-      console.log('I am here');
-      removeOldTotal = totalArray[i].hourArr[5];
+      totalArray[i].hourArr[totalArray[i].hourArr.length-2] = 0;
       console.log(removeOldTotal);
       totalHour = totalArray[i].hourArr.reduce(reducer);
-      totalArray[i].hourArr.push(totalHour - removeOldTotal);
+      totalArray[i].hourArr.push(totalHour);
     }
     if(flag === false){
       totalHour = totalArray[i].hourArr.reduce(reducer);
@@ -212,9 +210,10 @@ var addHourTotal = function(totalArray,flag){
     }
   }
   addingTotalToDom(totalArray);
+  console.log(totalArray);
 };
 
-//This function will be adding hourly totals to the DOM 
+//This function will be adding hourly totals to the DOM
 var addingTotalToDom = function(totalArray){
   var dailyAndHorlyTotals =0;
   var storeContainerTablel = document.getElementById('hourly total');
@@ -239,7 +238,7 @@ var destroyHourlyTotal = function(){
 var form = document.getElementById('store form');
 var handleFormSubmit = function(formSubmitEvent){
   formSubmitEvent.preventDefault();
-  var flag = true;
+  flag = true;
   var locationNameForm = formSubmitEvent.target['locationName'].value;
   var minCustomerForm = formSubmitEvent.target['minCustomer'].value;
   var maxCustomerForm = formSubmitEvent.target['maxCustomer'].value;
@@ -247,12 +246,8 @@ var handleFormSubmit = function(formSubmitEvent){
   var newStore = new Store(locationNameForm, minCustomerForm, maxCustomerForm, avgCookiesForm);
   storeArray.push(newStore);
   destroyHourlyTotal();
-  if(storeArray.length <=6){
-    masterArr = newStore.doAll(newStore,'newStore');
-  }
-  else{
-    masterArr = newStore.doAll(newStore,'newStore2');
-  }
+  masterArr = newStore.doAll(newStore,'newStore'+count);
+  count++;
   addHourTotal(masterArr[2],flag);
 };
 
@@ -260,7 +255,7 @@ var handleFormSubmit = function(formSubmitEvent){
 timeArr = createHourName();
 timeSetFunction();
 var masterArr = callingMasterFunction(storeArray);
-addHourTotal(masterArr[2],false);
+addHourTotal(masterArr[2],flag);
 form.addEventListener('submit', handleFormSubmit);
 
 
