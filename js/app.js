@@ -36,7 +36,7 @@ var Store = function(locationName,minCustomer,maxCustomer,avgCookie, cookiesBoug
 };
 
 //Using the constructor to create stores and pushing them to an array
-//I will be using this arry make my code more DRY
+//I will be using this array to make my code more DRY
 var firstAndPike = new Store('1st and Pike',23,65,6.3,[]);
 var seaTac = new Store('SeaTac Airport',3,24,1.2,[]);
 var seattleCenter = new Store('Seattle Center',11,38,3.7,[]);
@@ -49,7 +49,6 @@ storeArray.push(seattleCenter);
 storeArray.push(capitolHill);
 storeArray.push(alki);
 
-//These are the functions that the store objects will be using
 //This is the function to add the random number of cutomers and average cookies bought. I will also
 Store.prototype.randomCustomerSales = function(randomCustomer,cooikesBoughtArr,avgCookie,timeArray){
   var totalCookies = 0;
@@ -93,21 +92,13 @@ Store.prototype.randomCustomerSales = function(randomCustomer,cooikesBoughtArr,a
   }
   return [cooikesBoughtArr,totalCookies,timeArr];
 };
+
 //This will used to add all the tags and elements to the DOM
 Store.prototype.addingToDOM = function(cooikesBoughtArr, storeName){
   //This will add the location name to a td
-  console.log(cooikesBoughtArr);
-
-  // var lastStoreIndex =storeArray.length-1;
-  // var lastStoreName = lastStoreIndex.locationName;
-  // var table = document.createElement('table');
-  // table.setAttribute('id',lastStoreName);
   storeContainerTBEl = document.getElementById(storeName);
   tdEl = document.createElement('td');
   tdEl.textContent = this.locationName;
-  console.log(storeContainerTBEl);
-
-  console.log(storeName);
   //This is getting the container the stores will be in.
   storeContainerTBEl.appendChild(tdEl);
   //This is a loop to display the information on the page.
@@ -122,8 +113,10 @@ Store.prototype.addingToDOM = function(cooikesBoughtArr, storeName){
   thElTotal.textContent = 'Total '+Math.floor(cooikesBoughtArr[1]);
   storeContainerTBEl.appendChild(thElTotal);
 };
+
 //This function will add the random number of customers
 Store.prototype.randomCustomer = function (){return Math.floor(Math.random()* (this.maxCustomer-this.minCustomer))+ this.minCustomer;};
+
 //This function will perform the main store functions
 Store.prototype.doAll = function(Store,locationName){
   var ran = Store.randomCustomer();
@@ -131,6 +124,7 @@ Store.prototype.doAll = function(Store,locationName){
   Store.addingToDOM(arrayOfCookiesSales,locationName);
   return(arrayOfCookiesSales);
 };
+
 //This is the function to add the time to the page using DOM manipulation.
 var timeSetFunction = function(){
   storeContainerTBEl = document.getElementById('table head');
@@ -160,6 +154,9 @@ var timeSetFunction = function(){
     storeContainerTBEl.appendChild(thEl);
   }
 };
+
+//This function is creating HourArrays dynamically
+//At the moment this function will create 14 object arrays
 var createHourName = function(){
   var timeArray = [];
   for(var i = 6; i <= 11; i++){
@@ -175,14 +172,15 @@ var createHourName = function(){
       timeArray.push(new HourArray(k+'pm',[]));
     }
   }
-  console.log(timeArray);
   return timeArray;
 };
+
 //this will be considered the master function to perfrom most of what needs to happen
 var masterFunction = function(Store){
   var masterArr = Store.doAll(Store,Store.locationName);
   return masterArr;
 };
+
 //I will be using this function to call all of my functions
 var callingMasterFunction = function(storeArray){
   for (var i=0; i < storeArray.length; i++){
@@ -190,21 +188,39 @@ var callingMasterFunction = function(storeArray){
   }
   return masterArr;
 };
+
 //This fuction will add and render the hourly totals.
-var addHourTotal = function(totalArray){
-  console.log('hour total');
-  var dailyAndHorlyTotals =0;
+var addHourTotal = function(totalArray,flag){
   var totalHour = 0;
+  var removeOldTotal = 0;
   const reducer = (accumulator, currentValue) => accumulator + currentValue;
+  console.log(totalArray);
+  console.log(totalArray[0]);
+  console.log(totalArray[0].hourArr[5]);
+  console.log(totalArray[0]);
   for(var i = 0; i < totalArray.length;i++){
-    totalHour = totalArray[i].hourArr.reduce(reducer);
-    totalArray[i].hourArr.push(totalHour);
+    if(flag === true){
+      console.log('I am here');
+      removeOldTotal = totalArray[i].hourArr[5];
+      console.log(removeOldTotal);
+      totalHour = totalArray[i].hourArr.reduce(reducer);
+      totalArray[i].hourArr.push(totalHour - removeOldTotal);
+    }
+    if(flag === false){
+      totalHour = totalArray[i].hourArr.reduce(reducer);
+      totalArray[i].hourArr.push(totalHour);
+    }
   }
+  addingTotalToDom(totalArray);
+};
+
+//This function will be adding hourly totals to the DOM 
+var addingTotalToDom = function(totalArray){
+  var dailyAndHorlyTotals =0;
   var storeContainerTablel = document.getElementById('hourly total');
   thEl = document.createElement('td');
   thEl.textContent = 'Hourly Total';
   storeContainerTablel.appendChild(thEl);
-  console.log('before the loop');
   for(var j = 0; j< 14;j++ ){
     dailyAndHorlyTotals = dailyAndHorlyTotals + totalArray[j].hourArr[totalArray[j].hourArr.length-1];
     thEl = document.createElement('td');
@@ -215,30 +231,38 @@ var addHourTotal = function(totalArray){
   thEl.textContent = 'Total: '+ dailyAndHorlyTotals;
   storeContainerTablel.appendChild(thEl);
 };
+var destroyHourlyTotal = function(){
+  document.getElementById('hourly total').innerHTML ='';
+};
+
 //This is getting the data from the form and saveing it to an array so i can manipulated later
 var form = document.getElementById('store form');
 var handleFormSubmit = function(formSubmitEvent){
-  console.log('I made with a click');
   formSubmitEvent.preventDefault();
+  var flag = true;
   var locationNameForm = formSubmitEvent.target['locationName'].value;
   var minCustomerForm = formSubmitEvent.target['minCustomer'].value;
   var maxCustomerForm = formSubmitEvent.target['maxCustomer'].value;
   var avgCookiesForm = formSubmitEvent.target['avgCookies'].value;
   var newStore = new Store(locationNameForm, minCustomerForm, maxCustomerForm, avgCookiesForm);
   storeArray.push(newStore);
+  destroyHourlyTotal();
   if(storeArray.length <=6){
     masterArr = newStore.doAll(newStore,'newStore');
   }
   else{
     masterArr = newStore.doAll(newStore,'newStore2');
   }
+  addHourTotal(masterArr[2],flag);
 };
+
+//This is where all the magic happens. Calling all the main functions
 timeArr = createHourName();
 timeSetFunction();
-
 var masterArr = callingMasterFunction(storeArray);
-addHourTotal(masterArr[2]);
+addHourTotal(masterArr[2],false);
 form.addEventListener('submit', handleFormSubmit);
+
 
 
 

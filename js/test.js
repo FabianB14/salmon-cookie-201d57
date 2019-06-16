@@ -24,3 +24,4 @@ var imageDisplay = function(imageArr){
 };
 
 imageDisplay(imageArr);
+

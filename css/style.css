@@ -1,16 +1,16 @@
 
 header {
-  
+  background-color:black;
   height: 120px;
 }
 nav {
   padding-top: 30px;
 }
 
-nav li {
+li {
   float: left;
-  height: 60px; 
-  margin-right: 20px;
+  height: 40px; 
+  margin-right: 80px;
   list-style: none;
 }
 
@@ -44,7 +44,9 @@ img{
 }
 
 h1{
+  
   font-size: 35px;
+  background-color: black;
 }
 h2{
   font-size: 20px;
@@ -68,7 +70,7 @@ h2{
     width:470px;
 }
 html{
-   background-image: url('https://raw.githubusercontent.com/codefellows/seattle-201d57/master/class-09/lab-b/assets/fish.jpg');
+   background-color:black;
 }
 table{
   background-color: black;
@@ -76,4 +78,12 @@ table{
 
 form{
   background-color: black;
+}
+font{
+  background-color: black;
+  
+}
+#Sales{
+  background-image: url('https://raw.githubusercontent.com/codefellows/seattle-201d57/master/class-09/lab-b/assets/fish.jpg');
+  width: 100%;
 }
