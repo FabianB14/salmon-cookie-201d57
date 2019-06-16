@@ -61,14 +61,7 @@ h2{
   height: 200px;
 }
 
-#index-body{
-    display: block;
-    background-repeat: no-repeat;
-    height:160px;
-    padding-left:280px;
-    padding-top:50px;
-    width:470px;
-}
+
 html{
    background-color:black;
 }
@@ -86,4 +79,47 @@ font{
 #Sales{
   background-image: url('https://raw.githubusercontent.com/codefellows/seattle-201d57/master/class-09/lab-b/assets/fish.jpg');
   width: 100%;
+}
+
+.sales-link {
+  margin-left:40%;
+  
+}
+.bar{
+  width: 100%;
+}
+.gallery{
+  
+  float:right
+}
+.family-image{
+  width: 400px;
+  height:400px;
+  display: inline-block;
+  margin-left: 10px;
+}
+.family-image img{
+  height: 400px;
+  width:400px;
+}
+.fam-img-p{
+  font-size: 15px;
+}
+#gallery{
+  margin-left:100px;
+}
+
+#gallery img{
+  display: inline;
+}
+
+.galleryPar{
+  font-size: 20px;
+}
+
+a:link{
+  text-emphasis: none;
+}
+.footer{
+  margin-top:60px;
 }
